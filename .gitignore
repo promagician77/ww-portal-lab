@@ -1,0 +1,5 @@
+wp/
+.sqlite/
+data/
+shots/
+node_modules/

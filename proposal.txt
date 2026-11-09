@@ -1,0 +1,42 @@
+🎖️PayPal can't charge in rand, so monthly renewals through your PayPal setup would bill South African clients in foreign currency.🎖️
+
+Hi there,
+
+Rather than describe your portal, I built its custom layer on WordPress 7.1.4: [your Vercel link]
+Measured: 29/29 plugin tests and 14/14 live login checks pass; a figure typed in a lesson reached the dashboard to the cent, and expiry deleted nothing.
+
+=== What the link shows ===
+- Dashboard: real screenshots of finances, learning, coaching, resources and products, for an active client and an expired one.
+- Finance tracker: the lesson worksheet and the dashboard share one encrypted, append-only snapshot store with date comparison.
+- Access: a simulator for "10 weeks from the agreed start" plus monthly restore, matching the PHP engine on 2,021/2,021 cases.
+- Payments: why Payfast fits. It charges in rand, works with WooCommerce Subscriptions and accepts international cards.
+- Plan: 8 requirements handled by plugins or settings, 13 custom (about 1,700 lines, drafted), and the LearnDash defaults that would delete data or block renewals.
+
+=== Similar Work ===
+My client work is under NDA, so each is paired with the closest public product.
+1. https://wordpress.org/plugins/customer-area/ : WordPress client area, similar to your resource library
+Role: [your role, client type, outcome]
+- Private pages and files are assigned to a particular user
+- They're listed in that user's logged-in area
+- Files are served through secured download links
+- Its shortcode had a stored XSS up to 8.3.5, so my lab tests label escaping
+2. https://projectionlab.com : net-worth tracking and planning, similar to your finance tracker
+Role: [your role, client type, outcome]
+- Updating current finances creates dated Progress Points
+- Each point records net worth, assets and liabilities
+- A progress chart shows net worth over time
+- A Pro version serves advisors working with clients
+
+=== Prototype [$X] fixed, about 38 hours · Full system [$Y] fixed, about 110 hours (prototype credited) ===
+Plugins: LearnDash, WooCommerce + Payfast, Subscriptions. Custom: dashboard, finance tracker, access windows, resources, security.
+- Earliest start: [date]. Assuming a start by 16 Nov, the prototype is on staging by 27 Nov, ahead of your 1 Dec target.
+- Your feedback by 4 Dec; full system complete 15 Dec.
+- Two recorded trainings (admin, coach), an admin guide, and go-live by 18 Dec. Finishing before the end of December is feasible. An 11 Jan launch avoids holiday support gaps.
+- Support: [30] days of fixes after launch.
+Excludes course content, an Elementor redesign and legal POPIA documents.
+Licences (USD/year): LearnDash 350 (pricing changed three times since July; confirm at checkout); WooCommerce Subscriptions about 279, only if renewals are automatic; Payfast plugin free, plus transaction fees. Cheaper options: Tutor LMS Pro at 499 once, or one-off renewal passes instead of Subscriptions. Hosting: your current plan, if it runs PHP 8.1+ with daily backups.
+
+Question: do any clients need PayPal specifically, or can Payfast, which takes international cards, handle everyone? One gateway means fewer tests and a lower full-system price.
+
+Thanks,
+James

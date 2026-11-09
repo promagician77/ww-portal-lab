@@ -1,0 +1,20 @@
+{
+  "name": "wp-client-portal-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Client portal, LMS access engine and encrypted finance tracker on WordPress 7.1.4 + SQLite, with tests, live HTTP checks and a static proposal site.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "setup": "bash tools/setup.sh",
+    "test": "php wp/wp-content/plugins/ww-portal/tests/run.php results/test-results.json",
+    "serve:wp": "php -S 127.0.0.1:8090 -t wp tools/router.php",
+    "shots": "node tools/shots.cjs",
+    "parity": "php tools/vectors.php && node tools/parity.cjs",
+    "build": "echo static site in site/"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}

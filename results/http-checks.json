@@ -1,0 +1,75 @@
+{
+ "ran_at": "2026-11-09T14:59:27.498Z",
+ "results": [
+  {
+   "name": "Lesson worksheet save appears as dashboard latest",
+   "ok": true,
+   "detail": "net worth 18860000 → 19265050 cents, source course:money-reset/week-2"
+  },
+  {
+   "name": "/me/snapshots ignores ?user_id= and returns only own rows",
+   "ok": true,
+   "detail": "status 200, rows 6"
+  },
+  {
+   "name": "Client calling coach route for another client gets 403",
+   "ok": true,
+   "detail": "status 403"
+  },
+  {
+   "name": "Client sees only assigned resources",
+   "ok": true,
+   "detail": "Session 3 recording: your questions | Emergency fund calculator | Debt snowball planner"
+  },
+  {
+   "name": "Direct URL to a private file is refused",
+   "ok": true,
+   "detail": "status 403"
+  },
+  {
+   "name": "Assigned client downloads through the signed link",
+   "ok": true,
+   "detail": "status 200, attachment; filename=\"debt-snowball-planner.pdf\""
+  },
+  {
+   "name": "Forged resource id in the link is refused",
+   "ok": true,
+   "detail": "status 403"
+  },
+  {
+   "name": "Expired client can still log in and lands on the portal",
+   "ok": true,
+   "detail": "http://127.0.0.1:8090/portal/"
+  },
+  {
+   "name": "Clients are kept out of wp-admin",
+   "ok": true,
+   "detail": "http://127.0.0.1:8090/portal/"
+  },
+  {
+   "name": "Expired client still sees full finance history and progress",
+   "ok": true,
+   "detail": "snapshots 3, lessons done 10"
+  },
+  {
+   "name": "Another client's download link is refused (resource not assigned to them)",
+   "ok": true,
+   "detail": "status 403"
+  },
+  {
+   "name": "Coach reads an assigned client (audited)",
+   "ok": true,
+   "detail": "status 200"
+  },
+  {
+   "name": "Coach is refused another coach's client",
+   "ok": true,
+   "detail": "status 403"
+  },
+  {
+   "name": "Logged-out API call gets 401",
+   "ok": true,
+   "detail": "status 401"
+  }
+ ]
+}

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Client Portal Lab</title>
+<meta name="description" content="A working WordPress client portal, LMS access engine and finance tracker, built and measured before the project starts.">
+<link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="mast">
+  <div class="wrap mast-in">
+    <p class="kicker">Proposal lab · client portal, LMS and finance tracker on WordPress + WooCommerce</p>
+    <h1>Your portal on the WordPress you already run. <em>Plugins for the standard parts, one small plugin for the rest,</em> and it already runs.</h1>
+    <p class="lede">Before quoting, I installed WordPress 7.1.4, built the custom layer your brief needs, and tested it with fictional clients. Every screenshot below is the real thing, and every number was measured.</p>
+    <dl class="tally" id="tally">
+      <div><dt>Plugin tests</dt><dd data-k="tests">29/29</dd><span>132 assertions</span></div>
+      <div><dt>Live HTTP checks</dt><dd data-k="http">14/14</dd><span>real logins, real cookies</span></div>
+      <div><dt>Simulator parity</dt><dd data-k="parity">2,021/2,021</dd><span>browser port vs PHP engine</span></div>
+      <div><dt>Dashboard API</dt><dd data-k="p50">5.2 ms</dd><span>p50 with 520 snapshots</span></div>
+    </dl>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Lab sections">
+  <div class="wrap tabs-in" role="tablist">
+    <a role="tab" href="#plan" aria-selected="true"><b>01</b>Plan</a>
+    <a role="tab" href="#dashboard"><b>02</b>Dashboard</a>
+    <a role="tab" href="#finance"><b>03</b>Finance tracker</a>
+    <a role="tab" href="#access"><b>04</b>Access &amp; renewals</a>
+    <a role="tab" href="#payments"><b>05</b>Payments</a>
+    <a role="tab" href="#security"><b>06</b>Security &amp; POPIA</a>
+    <a role="tab" href="#tests"><b>07</b>Tests</a>
+    <a role="tab" href="#handover"><b>08</b>Handover</a>
+  </div>
+</nav>
+
+<main>
+<!-- 01 PLAN -->
+<section id="plan" class="panel" role="tabpanel">
+  <div class="wrap">
+    <div class="finding">
+      <p class="tag">Read this first</p>
+      <h2>PayPal can't charge in rand.</h2>
+      <p>PayPal does not support ZAR, and store owners report that WooCommerce's PayPal gateway won't switch on for a store priced in rand. Your monthly renewals would bill South African clients in a foreign currency, with conversion on every payment. Payfast is the fix: the official WooCommerce gateway charges in rand, works with WooCommerce Subscriptions, and also takes Visa and Mastercard from other countries. <a href="#payments">See the payment plan →</a></p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h2 class="h">The stack</h2>
+        <p class="sub">Your existing site stays. Three plugins cover the standard parts. One small custom plugin, <code>ww-portal</code>, handles what no plugin does, and it talks to the LMS through a single adapter, so choosing LearnDash or Tutor LMS changes one file.</p>
+        <figure class="stack" aria-label="Architecture">
+          <div class="layer l-user"><span>Client · Coach · Admin</span><small>one login, three views</small></div>
+          <div class="layer l-wp"><span>WordPress + Elementor (your current site)</span><small>accounts, pages, roles</small></div>
+          <div class="row3">
+            <div class="layer l-plugin"><span>WooCommerce</span><small>checkout, orders, invoices</small></div>
+            <div class="layer l-plugin"><span>Payfast · PayPal</span><small>rand + international</small></div>
+            <div class="layer l-plugin"><span>Woo Subscriptions</span><small>optional monthly</small></div>
+          </div>
+          <div class="row2">
+            <div class="layer l-plugin"><span>LearnDash</span><small>courses, video, quizzes, assignments, coach review</small></div>
+            <div class="layer l-custom"><span>ww-portal (custom)</span><small>finance snapshots · access windows · resources · dashboard · audit</small></div>
+          </div>
+          <div class="layer l-data"><span>Your database</span><small>finance rows encrypted · key kept in wp-config, not in the database</small></div>
+        </figure>
+        <div class="card defaults">
+          <h3>Defaults I've chosen (each is a setting you can change)</h3>
+          <ul class="ticks">
+            <li><b>Store in rand, Payfast first.</b> PayPal stays only if some clients really need it.</li>
+            <li><b>The finance tracker keeps working after access ends.</b> It's the client's own data, and it gives them a reason to come back. Only course content locks.</li>
+            <li><b>3 grace days on monthly renewals,</b> so a late debit order doesn't lock someone out mid-lesson.</li>
+            <li><b>LearnDash's own expiry stays off.</b> The portal owns access, so LearnDash's data-deletion switch never runs.</li>
+            <li><b>Coaches see only their assigned clients,</b> and every view of someone's finances is logged.</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h2 class="h">What's custom, what isn't</h2>
+        <p class="sub">Your brief, line by line. Of 22 requirements, 8 are plugin features or settings, 13 sit in the custom plugin (about 1,700 lines of PHP, drafted and tested here), and 1 is training.</p>
+        <div class="mixbar" aria-hidden="true"><span class="m-p" style="flex:8">8 plugin / setting</span><span class="m-c" style="flex:13">13 custom</span><span class="m-s" style="flex:1"></span></div>
+        <div class="req" id="req"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 DASHBOARD -->
+<section id="dashboard" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">One dashboard: finances, learning, coaching, resources, products</h2>
+    <p class="sub">Real screenshots of WordPress 7.1.4 with the plugin active, logged in as fictional clients. Toggle between an active client and one whose 10 weeks ended in August.</p>
+    <div class="seg" role="group" aria-label="Client state">
+      <button class="on" data-shot="active">Active client · week 5</button>
+      <button data-shot="expired">Expired client · data kept</button>
+      <button data-shot="mobile">Phone</button>
+    </div>
+    <div class="shotwrap">
+      <figure class="browser" data-for="active"><div class="bar"><i></i><i></i><i></i><span>/portal/ · Thandi (fictional)</span></div><img src="img/dash-active.jpg" alt="Client dashboard showing net worth R 192 650, chart of five snapshots, spending mix, course 75% complete, coach feedback, assigned resources, access until 6 Dec 2026 and a snapshot comparison table" width="1400" height="1808" loading="lazy"></figure>
+      <figure class="browser" data-for="expired" hidden><div class="bar"><i></i><i></i><i></i><span>/portal/ · Pieter (fictional), access ended 9 Aug</span></div><img src="img/dash-expired.jpg" alt="Expired client dashboard: banner says nothing has been deleted, finance history and 10 of 12 lessons kept, course locked until renewal" width="1400" height="1841" loading="lazy"></figure>
+      <figure class="phone" data-for="mobile" hidden><img src="img/dash-mobile.jpg" alt="Dashboard on a 390 px phone" width="420" height="1400" loading="lazy"></figure>
+      <aside class="notes">
+        <h3>What each card reads</h3>
+        <ol>
+          <li><b>Finances</b> latest encrypted snapshot, change since the previous one and since the first, a chart drawn on the server, and where this month's income goes.</li>
+          <li><b>Learning</b> progress and next lesson from the LMS adapter. After expiry it shows <em>locked</em>, with progress kept.</li>
+          <li><b>Coaching</b> worksheets awaiting review and the coach's last feedback (LearnDash assignments).</li>
+          <li><b>Resources</b> only what was assigned to this client, through signed links. The files can't be reached by URL.</li>
+          <li><b>Products</b> the access window, days left, renew and orders.</li>
+          <li><b>Compare</b> any two dates, with the biggest line-by-line moves.</li>
+        </ol>
+        <p class="fine">Clients never see wp-admin or the toolbar, and log in straight to the dashboard (checked live: <a href="#tests">tests</a>).</p>
+      </aside>
+    </div>
+    <div class="duo">
+      <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>Coach view · only assigned clients</span></div><img src="img/coach.jpg" alt="Coach list of four assigned clients with access status, course progress, worksheets to review and net worth change" width="1400" height="554" loading="lazy"></figure>
+      <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>wp-admin · Client access</span></div><img src="img/admin-access.jpg" alt="Admin Client access screen listing paid client needing a start date, active, expired and upcoming clients with start and extend controls" width="1400" height="494" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 03 FINANCE -->
+<section id="finance" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">Typed once in a lesson, kept forever on the dashboard</h2>
+    <p class="sub">The Week 2 worksheet and the dashboard write to the same store, so nothing has to sync. Each save adds a new dated snapshot and never overwrites an old one.</p>
+    <div class="flow" aria-label="Data flow">
+      <div class="node">Lesson worksheet<small>[wwp_finance_form] inside a LearnDash lesson</small></div><span class="arrow">→</span>
+      <div class="node strong">One encrypted, append-only store<small>one row per save · hash-chained</small></div><span class="arrow">→</span>
+      <div class="node">Dashboard · compare · coach view · POPIA export<small>all read the same rows</small></div>
+    </div>
+    <div class="duo wide-left">
+      <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>/money-reset/week-2/ · pre-filled from the last snapshot</span></div><img src="img/lesson.jpg" alt="Week 2 lesson page with video placeholder and the net worth worksheet pre-filled with income, expenses, assets and liabilities" width="1100" height="1413" loading="lazy"></figure>
+      <div>
+        <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>Live totals while typing "R 24 950,50"</span></div><img src="img/lesson-live.jpg" alt="Worksheet assets and liabilities with live net worth R 192 650 and monthly surplus R 5 610" width="1200" height="452" loading="lazy"></figure>
+        <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>After Save</span></div><img src="img/lesson-saved.jpg" alt="Saved confirmation: this snapshot is now on your dashboard" width="1200" height="134" loading="lazy"></figure>
+        <p class="proof"><b>Measured end to end:</b> a browser filled two fields in the lesson and saved, then the dashboard API returned that snapshot as the latest, with net worth up exactly R 4 050.50 and source <code>course:money-reset/week-2</code>.</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="card">
+        <h3>Try the amount parser</h3>
+        <p class="sub">South Africans write amounts several ways. The worksheet accepts all of these and stores whole cents, never floating-point numbers. This box runs a browser port of the PHP parser, which agrees with the PHP on 25 of 25 test strings.</p>
+        <label class="try"><span>Type an amount</span><input id="amt" value="R 12 500,50" autocomplete="off" spellcheck="false"></label>
+        <p class="out" id="amt-out"></p>
+        <div class="chips" id="amt-chips"></div>
+        <p class="fine"><b>Bug the tests caught:</b> the dashboard prints negatives as "−R 400", and the first parser couldn't read that back, so a negative line would have failed to re-save. Fixed and covered by a round-trip test.</p>
+      </div>
+      <div class="card">
+        <h3>Why the numbers are safe to keep</h3>
+        <ul class="ticks">
+          <li><b>Encrypted at rest.</b> XChaCha20-Poly1305 (libsodium, part of PHP). A full table dump contains no labels or amounts (tested).</li>
+          <li><b>Key outside the database.</b> It lives in <code>wp-config.php</code>, so a leaked backup or SQL dump is unreadable.</li>
+          <li><b>Bound to owner and date.</b> A row copied onto another client's account won't decrypt, so nobody ever sees someone else's figures (tested).</li>
+          <li><b>Append-only with a hash chain.</b> There's no update path in the code. A row back-dated or deleted directly in the database is flagged at that exact row (tested: edit at row 3, deletion at row 4).</li>
+          <li><b>Exact money.</b> Integer cents. Savings rate 54.16% from R 16 249.50 ÷ R 30 000, exactly (tested).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ACCESS -->
+<section id="access" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">10 weeks from the agreed start date. Renew monthly. Lose nothing.</h2>
+    <p class="sub">Drag the dates. This simulator runs a browser port of the plugin's access engine, which agreed with the PHP on 2,021 of 2,021 generated cases.</p>
+    <div class="sim card">
+      <div class="sim-controls">
+        <label>Purchased<input type="date" id="s-buy" value="2026-11-20"></label>
+        <label>Agreed programme start<input type="date" id="s-start" value="2027-01-11"></label>
+        <label>Weeks<input type="number" id="s-weeks" value="10" min="1" max="52"></label>
+        <label>Subscribes monthly on<input type="date" id="s-sub" value="2027-04-05"></label>
+        <label>Paid months<input type="number" id="s-months" value="2" min="0" max="12"></label>
+        <label>Grace days<input type="number" id="s-grace" value="3" min="0" max="14"></label>
+      </div>
+      <div class="timeline" id="tl" aria-label="Access timeline"></div>
+      <div class="legend"><span class="k-up"></span>paid, not started <span class="k-on"></span>course open <span class="k-off"></span>course locked, data kept</div>
+      <div class="scrub">
+        <label for="s-day">Look at a day</label><input type="range" id="s-day" min="0" max="240" value="150">
+        <div class="day-card" id="day-card"></div>
+      </div>
+    </div>
+
+    <h3 class="h3">Three LearnDash defaults that would break your rules, and what the plugin does instead</h3>
+    <div class="traps">
+      <div class="trap"><b>1 · Expiry counts from enrolment.</b><p>LearnDash's Course Access Expiration limits access by the learner's <em>enrolment date</em>. Your rule is 10 weeks from the <em>agreed start date</em>, which can be weeks after payment.</p><p class="fix">Access windows store the agreed start date. LearnDash expiry stays off.</p></div>
+      <div class="trap"><b>2 · An optional data-deletion switch.</b><p>The same setting can delete course and quiz data after expiry, and LearnDash warns that deleted data can't be recovered.</p><p class="fix">Expiry only removes access, through <code>ld_update_course_access</code>. Tests show progress, worksheets, snapshots and the login unchanged after expiry.</p></div>
+      <div class="trap"><b>3 · Cohort end dates beat extensions.</b><p>With a group end date, Extend Access can't go past it, and a course in a dated group can't be added to another group.</p><p class="fix">Renewals add a window that starts where access ends (no gap, no double days) and restore access on the same request.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PAYMENTS -->
+<section id="payments" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">Rand for South Africans, cards for everyone else</h2>
+    <div class="split">
+      <div class="card">
+        <h3>What the sources say</h3>
+        <ul class="facts">
+          <li><b>PayPal:</b> "The ZAR is not a PayPal supported currency … and never has been" (PayPal Community). WordPress users report the WooCommerce PayPal gateway won't activate with a rand store currency.</li>
+          <li><b>Payfast (official WooCommerce gateway):</b> payments from any country are accepted, but the store currency must be ZAR. It works with WooCommerce Subscriptions once <em>Ad hoc Payments</em> is enabled. The first charge can't be under R5, and two subscriptions can't be bought in the same cart.</li>
+          <li><b>Payfast plugin FAQ:</b> takes Visa and Mastercard from anywhere in the world.</li>
+        </ul>
+        <p class="fine">So the likely setup is a rand store with Payfast for everyone. PayPal stays only if some clients really need it, and that's my question to you in the proposal.</p>
+      </div>
+      <div class="card">
+        <h3>From checkout to course access</h3>
+        <ol class="steps">
+          <li><b>Order paid</b> (Payfast or PayPal) → WooCommerce marks it processing or completed.</li>
+          <li><b>Hook</b> reads the product's programme. If the agreed start date is on the order, a window is created. If not, the client shows as <em>Paid · needs start date</em> on the Client access screen.</li>
+          <li><b>Start date arrives</b> → the LMS course opens. The window ends N weeks later, inclusive.</li>
+          <li><b>Monthly renewal</b> → the window extends to the next payment date + 3 grace days, and the course reopens on that request, without waiting for the nightly job.</li>
+          <li><b>Cancelled or failed</b> → nothing is deleted. Access runs to the paid-through date, then the nightly sweep locks the course.</li>
+        </ol>
+        <p class="fine">The WooCommerce hooks are thin calls into the tested engine. WooCommerce itself wasn't installed here; the hooks get exercised on staging with Payfast sandbox.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 SECURITY -->
+<section id="security" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">Each client sees their own numbers. Coaches see only their clients. Every look is logged.</h2>
+    <p class="sub">These checks ran against the live local site, logged in through wp-login.php as different fictional users, using real cookies and nonces.</p>
+    <div class="http" id="http"></div>
+    <div class="duo">
+      <figure class="browser"><div class="bar"><i></i><i></i><i></i><span>wp-admin · Audit log</span></div><img src="img/admin-audit.jpg" alt="Audit log listing coach_denied, coach_viewed_finances, resource_assigned, lms_sync and access_window events" width="1400" height="755" loading="lazy"></figure>
+      <div class="card">
+        <h3>POPIA, handled by tools WordPress already has</h3>
+        <ul class="ticks">
+          <li><b>Export:</b> the plugin registers with <em>Tools → Export Personal Data</em>, so a client's request returns their decrypted finance history, access windows and resources (tested: 6 of 6 snapshots).</li>
+          <li><b>Erase:</b> <em>Tools → Erase Personal Data</em> removes only that client's snapshots. The other client's rows were untouched, and both actions were written to the audit log (tested).</li>
+          <li><b>No URL guessing:</b> resource files sit in a deny-all folder and are streamed only to the assigned client, their coach or an admin. A direct URL returned 403, and path tricks like <code>../../wp-config.php</code> resolve to nothing (tested).</li>
+          <li><b>Labels are escaped:</b> a stored <code>&lt;script&gt;</code> in a line label renders as text (tested).</li>
+        </ul>
+        <p class="fine">Your privacy notice and Information Officer duties are legal work, not code. I'll give you the data map they need: what's stored, where, who can see it and for how long.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 TESTS -->
+<section id="tests" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">What was measured, and what wasn't</h2>
+    <p class="sub" id="env"></p>
+    <div class="perf" id="perf"></div>
+    <div class="tests" id="test-table"></div>
+    <div class="split honest">
+      <div class="card ok">
+        <h3>Measured here</h3>
+        <ul>
+          <li>29 plugin tests (132 assertions) on WordPress 7.1.4 + PHP 8.3, real database, real plugin code</li>
+          <li>14 HTTP checks through a real browser: logins, cookies, REST nonces, file downloads</li>
+          <li>Lesson → dashboard flow end to end, in the browser</li>
+          <li>Access simulator vs PHP engine: 2,021/2,021 cases. Amount parser: 25/25</li>
+          <li>Speed: 520 weekly snapshots (10 years) for one client, plus a 300-client expiry sweep</li>
+          <li>Every screenshot comes from that same running site</li>
+        </ul>
+      </div>
+      <div class="card no">
+        <h3>Not measured yet (runs first on staging)</h3>
+        <ul>
+          <li>The LearnDash adapter is written against LearnDash's documented functions but not executed, because LearnDash is licensed</li>
+          <li>WooCommerce, Subscriptions, Payfast and PayPal hooks: not installed here, so sandbox payments still need to run</li>
+          <li>Ran on SQLite, not your host's MySQL/MariaDB. Queries are plain MySQL, but timings will differ</li>
+          <li>Your Elementor header and footer around the portal pages</li>
+          <li>Load from many simultaneous users on your hosting</li>
+          <li>Reminder emails before expiry (planned, not built)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 HANDOVER -->
+<section id="handover" class="panel" role="tabpanel" hidden>
+  <div class="wrap">
+    <h2 class="h">Two stages, then a handover your team can run</h2>
+    <div class="stages">
+      <div class="stage"><p class="tag">Stage 1</p><h3>Working prototype on staging</h3><ul><li>Staging copy of your site, on your host</li><li>LearnDash with one 6-week course shell (your videos and worksheets slot in)</li><li>Portal dashboard, finance worksheet in Week 1, snapshots and compare</li><li>Access windows from the agreed start date; Client access screen</li><li>Payfast sandbox checkout granting access</li><li>You click through it as a client, a coach and an admin</li></ul></div>
+      <div class="stage"><p class="tag">Stage 2</p><h3>Complete system, live</h3><ul><li>Everything in Stage 1 hardened against your feedback</li><li>Monthly subscription to continue or restore, with grace days</li><li>Coach role: assigned clients, worksheet review, audited finance view</li><li>Resource library with per-client assignment and protected files</li><li>Encryption key set up, POPIA export/erase, audit log</li><li>Reminder emails before access ends; test suite run on your server; go-live</li></ul></div>
+      <div class="stage"><p class="tag">Handover</p><h3>Training, docs, support</h3><ul><li>Two recorded sessions: admin (courses, start dates, extensions, refunds, resources, POPIA requests) and coach (reviews, client view)</li><li>Admin guide with screenshots of your own site</li><li>Technical handover: code, tests, key and backup notes, Nginx/Apache rules</li><li>Post-launch support window for fixes and questions</li></ul></div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3>Not included</h3>
+        <ul class="plain"><li>Recording or editing course videos, writing course content</li><li>Redesigning the Elementor site</li><li>Opening Payfast or PayPal merchant accounts (I'll guide you)</li><li>Legal POPIA documents</li><li>Hosting and plugin licences (listed with costs in the proposal)</li></ul>
+      </div>
+      <div class="card cheaper">
+        <h3>Simpler or cheaper, if you prefer</h3>
+        <ul class="plain">
+          <li><b>Renewal passes instead of subscriptions.</b> A one-off "continue for a month" product extends access by a month, with no WooCommerce Subscriptions licence and no Payfast recurring setup. Trade-off: clients renew by hand, with an email reminder.</li>
+          <li><b>Tutor LMS Pro on a lifetime licence instead of LearnDash.</b> The portal talks to the LMS through one adapter, so this swaps one file. Trade-off: no LearnDash group-leader tools for coaches.</li>
+          <li><b>Payfast only.</b> If no client needs PayPal specifically, one gateway means one set of tests and one reconciliation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <h2 class="h">Sources</h2>
+    <ul class="src">
+      <li><a href="https://www.paypal-community.com/t5/Payments/Help-Why-wont-paypal-accept-ZAR-Rands-payments/td-p/1580222">PayPal Community: ZAR is not a PayPal supported currency</a></li>
+      <li><a href="https://wordpress.org/support/topic/not-working-for-zar/">WordPress.org support: PayPal gateway won't activate with a rand store currency</a></li>
+      <li><a href="https://woocommerce.com/document/payfast-payment-gateway/">WooCommerce docs: Payfast Payment Gateway (ZAR store currency, Subscriptions, ad hoc payments, R5 minimum, one subscription per cart)</a></li>
+      <li><a href="https://wordpress.org/plugins/woocommerce-payfast-gateway/">WooCommerce Payfast Gateway plugin page and FAQ</a></li>
+      <li><a href="https://learndash.com/support/kb/core/courses/course-access/">LearnDash: Course Access Expiration is based on the enrolment date</a></li>
+      <li><a href="https://www.liquidweb.com/?p=448946">LearnDash (Liquid Web docs): delete course and quiz data after expiration, which can't be recovered</a></li>
+      <li><a href="https://docs.nexcess.com/software/learndash/extend-access/">LearnDash: group end date takes priority over Extend Access</a></li>
+      <li><a href="https://learndash.com/support/docs/group-access-settings/">LearnDash: group start and end dates</a></li>
+      <li><a href="https://developers.learndash.com/function/ld_update_course_access/">LearnDash developer reference: ld_update_course_access</a></li>
+      <li><a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/">WordPress developer handbook: adding a personal data exporter</a></li>
+    </ul>
+    <p class="fine">All people, numbers and the "Coaching Portal" brand in the screenshots are fictional. This page is a proposal asset and is not indexed by search engines.</p>
+  </div>
+</footer>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

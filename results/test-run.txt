@@ -1,0 +1,31 @@
+PASS  money      Parses how South Africans type amounts (13 formats)  — 13 formats + format→parse round trip, integer cents
+PASS  finance    Net worth, monthly surplus and savings rate are exact to the cent  — surplus R 16 249.50, net worth R 15 000, savings rate 54.16%
+PASS  finance    Stored payload is ciphertext: no labels or amounts in the database  — payload 468 bytes base64, key_id ba80d6b2d60f
+PASS  finance    A row copied onto another client's account will not decrypt  — Bongani's view: 1 row, unreadable, no figures shown
+PASS  finance    Wrong key or flipped byte: decrypt returns nothing, never garbage
+PASS  finance    Append-only: saving again adds a row and leaves the old one byte-identical  — no UPDATE statement exists in the finance class
+PASS  finance    Hash chain catches a row edited or deleted directly in the database  — edit flagged at row 3, deletion flagged at row 4
+PASS  finance    Bad input is refused whole; nothing half-saved  — expenses line 3: "4OO" is not an amount
+PASS  finance    Numbers typed in a course lesson are the dashboard's latest figures  — one store, two entry points; course row stays in history
+PASS  finance    Compare two dates: totals and per-line changes  — net worth +R 12000 over 39 days
+PASS  finance    Stale per-user write lock is cleared; a live one returns 409
+PASS  access     10 weeks from the agreed start date, not from the purchase date  — bought 20 Nov, access 11 Jan → 21 Mar inclusive (70 days)
+PASS  access     State on the exact boundary days
+PASS  access     Leap year and month ends are plain date arithmetic
+PASS  access     Programme start grants course access; expiry removes access only  — sweep: 2 access changes; 2 snapshots, 8/12 lessons, 1 reviewed worksheet, role all unchanged
+PASS  access     Monthly subscription after expiry restores access with progress intact  — expired 22 Mar → renewed 5 Apr → lesson 9 of 12 is next
+PASS  access     Renewal while active extends from the current end: no gap, no double days
+PASS  access     Cancelled subscription keeps access to the paid-through date, then locks
+PASS  access     Sync is idempotent and rejects bad input
+PASS  rest       Logged-out requests get 401 on every /me route
+PASS  rest       /me routes ignore any user id in the query or body  — Bongani posting user_id=Alice wrote to Bongani; Alice's ids return 404
+PASS  rest       Coach sees assigned clients only, and every read is audited
+PASS  resources  Assigned without a course; visible only to that client
+PASS  resources  File path cannot escape the private folder
+PASS  privacy    POPIA export returns one client's decrypted history; erase removes only theirs  — exported 6 snapshots, erased 6, Bongani's 3 untouched, both actions audited
+PASS  dashboard  Expired client sees history, progress and a renew button; no one else's data
+PASS  dashboard  Labels are escaped (stored XSS attempt renders as text)
+PASS  perf       10 years of weekly snapshots for one client  — save avg 2.99 ms · /me/summary p50 5.2 ms, p95 6.3 ms · verify 520 rows 3.8 ms
+PASS  perf       Nightly expiry sweep across 300 clients  — 301 users, 458 access changes in 599.8 ms; 244 expired = 244 locked
+
+29/29 tests passed, 132 assertions

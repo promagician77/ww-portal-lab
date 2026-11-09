@@ -1,0 +1,252 @@
+{
+    "ran_at": "2026-11-09T15:00:06+00:00",
+    "php": "8.3.6",
+    "wordpress": "7.1.4",
+    "database": "SQLite via sqlite-database-integration 3.1.3",
+    "lms": "Demo LMS (LearnDash stand-in)",
+    "passed": 29,
+    "total": 29,
+    "checks": 132,
+    "perf": {
+        "save_ms_avg": 2.99,
+        "summary_p50_ms": 5.2,
+        "summary_p95_ms": 6.3,
+        "verify_520_ms": 3.8,
+        "sweep_300_ms": 599.8,
+        "sweep_changes": 458
+    },
+    "results": [
+        {
+            "group": "money",
+            "name": "Parses how South Africans type amounts (13 formats)",
+            "ok": true,
+            "checks": 18,
+            "detail": "13 formats + format→parse round trip, integer cents",
+            "ms": 0.19
+        },
+        {
+            "group": "finance",
+            "name": "Net worth, monthly surplus and savings rate are exact to the cent",
+            "ok": true,
+            "checks": 5,
+            "detail": "surplus R 16 249.50, net worth R 15 000, savings rate 54.16%",
+            "ms": 3.29
+        },
+        {
+            "group": "finance",
+            "name": "Stored payload is ciphertext: no labels or amounts in the database",
+            "ok": true,
+            "checks": 7,
+            "detail": "payload 468 bytes base64, key_id ba80d6b2d60f",
+            "ms": 0.46
+        },
+        {
+            "group": "finance",
+            "name": "A row copied onto another client's account will not decrypt",
+            "ok": true,
+            "checks": 3,
+            "detail": "Bongani's view: 1 row, unreadable, no figures shown",
+            "ms": 1.45
+        },
+        {
+            "group": "finance",
+            "name": "Wrong key or flipped byte: decrypt returns nothing, never garbage",
+            "ok": true,
+            "checks": 4,
+            "detail": "",
+            "ms": 0.02
+        },
+        {
+            "group": "finance",
+            "name": "Append-only: saving again adds a row and leaves the old one byte-identical",
+            "ok": true,
+            "checks": 3,
+            "detail": "no UPDATE statement exists in the finance class",
+            "ms": 3.52
+        },
+        {
+            "group": "finance",
+            "name": "Hash chain catches a row edited or deleted directly in the database",
+            "ok": true,
+            "checks": 3,
+            "detail": "edit flagged at row 3, deletion flagged at row 4",
+            "ms": 5.74
+        },
+        {
+            "group": "finance",
+            "name": "Bad input is refused whole; nothing half-saved",
+            "ok": true,
+            "checks": 5,
+            "detail": "expenses line 3: \"4OO\" is not an amount",
+            "ms": 0.73
+        },
+        {
+            "group": "finance",
+            "name": "Numbers typed in a course lesson are the dashboard's latest figures",
+            "ok": true,
+            "checks": 5,
+            "detail": "one store, two entry points; course row stays in history",
+            "ms": 8.15
+        },
+        {
+            "group": "finance",
+            "name": "Compare two dates: totals and per-line changes",
+            "ok": true,
+            "checks": 5,
+            "detail": "net worth +R 12000 over 39 days",
+            "ms": 1.79
+        },
+        {
+            "group": "finance",
+            "name": "Stale per-user write lock is cleared; a live one returns 409",
+            "ok": true,
+            "checks": 3,
+            "detail": "",
+            "ms": 2027.45
+        },
+        {
+            "group": "access",
+            "name": "10 weeks from the agreed start date, not from the purchase date",
+            "ok": true,
+            "checks": 5,
+            "detail": "bought 20 Nov, access 11 Jan → 21 Mar inclusive (70 days)",
+            "ms": 6.23
+        },
+        {
+            "group": "access",
+            "name": "State on the exact boundary days",
+            "ok": true,
+            "checks": 6,
+            "detail": "",
+            "ms": 2.95
+        },
+        {
+            "group": "access",
+            "name": "Leap year and month ends are plain date arithmetic",
+            "ok": true,
+            "checks": 3,
+            "detail": "",
+            "ms": 0.02
+        },
+        {
+            "group": "access",
+            "name": "Programme start grants course access; expiry removes access only",
+            "ok": true,
+            "checks": 4,
+            "detail": "sweep: 2 access changes; 2 snapshots, 8\/12 lessons, 1 reviewed worksheet, role all unchanged",
+            "ms": 98.2
+        },
+        {
+            "group": "access",
+            "name": "Monthly subscription after expiry restores access with progress intact",
+            "ok": true,
+            "checks": 4,
+            "detail": "expired 22 Mar → renewed 5 Apr → lesson 9 of 12 is next",
+            "ms": 7.54
+        },
+        {
+            "group": "access",
+            "name": "Renewal while active extends from the current end: no gap, no double days",
+            "ok": true,
+            "checks": 3,
+            "detail": "",
+            "ms": 5.79
+        },
+        {
+            "group": "access",
+            "name": "Cancelled subscription keeps access to the paid-through date, then locks",
+            "ok": true,
+            "checks": 3,
+            "detail": "",
+            "ms": 5.02
+        },
+        {
+            "group": "access",
+            "name": "Sync is idempotent and rejects bad input",
+            "ok": true,
+            "checks": 3,
+            "detail": "",
+            "ms": 2.39
+        },
+        {
+            "group": "rest",
+            "name": "Logged-out requests get 401 on every \/me route",
+            "ok": true,
+            "checks": 4,
+            "detail": "",
+            "ms": 5.7
+        },
+        {
+            "group": "rest",
+            "name": "\/me routes ignore any user id in the query or body",
+            "ok": true,
+            "checks": 4,
+            "detail": "Bongani posting user_id=Alice wrote to Bongani; Alice's ids return 404",
+            "ms": 7.55
+        },
+        {
+            "group": "rest",
+            "name": "Coach sees assigned clients only, and every read is audited",
+            "ok": true,
+            "checks": 7,
+            "detail": "",
+            "ms": 3.88
+        },
+        {
+            "group": "resources",
+            "name": "Assigned without a course; visible only to that client",
+            "ok": true,
+            "checks": 5,
+            "detail": "",
+            "ms": 18.5
+        },
+        {
+            "group": "resources",
+            "name": "File path cannot escape the private folder",
+            "ok": true,
+            "checks": 4,
+            "detail": "",
+            "ms": 10.53
+        },
+        {
+            "group": "privacy",
+            "name": "POPIA export returns one client's decrypted history; erase removes only theirs",
+            "ok": true,
+            "checks": 7,
+            "detail": "exported 6 snapshots, erased 6, Bongani's 3 untouched, both actions audited",
+            "ms": 5.65
+        },
+        {
+            "group": "dashboard",
+            "name": "Expired client sees history, progress and a renew button; no one else's data",
+            "ok": true,
+            "checks": 5,
+            "detail": "",
+            "ms": 7.32
+        },
+        {
+            "group": "dashboard",
+            "name": "Labels are escaped (stored XSS attempt renders as text)",
+            "ok": true,
+            "checks": 1,
+            "detail": "",
+            "ms": 7
+        },
+        {
+            "group": "perf",
+            "name": "10 years of weekly snapshots for one client",
+            "ok": true,
+            "checks": 2,
+            "detail": "save avg 2.99 ms · \/me\/summary p50 5.2 ms, p95 6.3 ms · verify 520 rows 3.8 ms",
+            "ms": 1804.04
+        },
+        {
+            "group": "perf",
+            "name": "Nightly expiry sweep across 300 clients",
+            "ok": true,
+            "checks": 1,
+            "detail": "301 users, 458 access changes in 599.8 ms; 244 expired = 244 locked",
+            "ms": 26953.45
+        }
+    ]
+}

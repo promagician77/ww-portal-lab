@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Client portal on WordPress: plan and proof</title>
+<style>
+@font-face{font-family:FR;src:url(../site/fonts/fraunces-latin-opsz-normal.woff2);font-weight:100 900}
+@font-face{font-family:IN;src:url(../site/fonts/inter-latin-wght-normal.woff2);font-weight:100 900}
+@font-face{font-family:JB;src:url(../site/fonts/jetbrains-mono-latin-400-normal.woff2)}
+@page{size:A4;margin:0}*{box-sizing:border-box}
+:root{--ink:#15211f;--ink2:#3d4946;--mute:#66726f;--rule:#d9d1c1;--rule2:#ebe5d9;--green:#0d5c4c;--deep:#13392f;--mint:#e3efe9;--gold:#9a6614;--gold2:#f6ead3;--red:#a8432c}
+html,body{margin:0;background:#fff;color:var(--ink);font:400 9.3px/1.45 IN,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+section.pg{width:210mm;height:297mm;overflow:hidden;position:relative;page-break-after:always;padding:10mm 12mm 0}section.pg:last-child{page-break-after:auto}
+.kick{font:600 7px JB;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+h1{font:500 25px/1.05 FR;margin:3px 0 5px;letter-spacing:-.015em}
+h1 em{font-style:normal;color:var(--green)}
+.lede{color:var(--ink2);font-size:10px;margin:0 0 3.5mm;max-width:178mm}
+h2{font:600 14.5px/1.15 FR;margin:4mm 0 1.8mm}
+h3{font:650 9.4px/1.3 IN;margin:0 0 1.2mm}
+p{margin:0}
+.cap{font:600 6.4px JB;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 1.2mm}
+img{display:block;width:100%}
+.finding{display:grid;grid-template-columns:30mm 1fr;gap:4mm;background:var(--gold2);border:1px solid #e6cd9c;padding:3mm 4mm;border-radius:2mm}
+.finding b.big{font:600 15px/1.1 FR;color:#6d4709}
+.finding p{color:var(--ink2)}
+.tally{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm;margin:3mm 0}
+.tally div{background:var(--deep);color:#fff;border-radius:1.6mm;padding:2.2mm 3mm}
+.tally span{display:block;font:600 6.2px JB;letter-spacing:.08em;text-transform:uppercase;color:#a9c9bd}
+.tally b{font:600 17px/1.15 FR}
+.tally small{display:block;color:#bcd4cb;font-size:7.4px}
+.shots{display:grid;grid-template-columns:1fr 39mm;gap:3.5mm;align-items:start}
+.frame{border:1px solid var(--rule);border-radius:1.6mm;overflow:hidden}
+.frame .bar{background:#ebe6db;font:6.4px JB;color:#6b604d;padding:1.2mm 2mm;border-bottom:1px solid var(--rule)}
+.crop-dash{height:104mm;object-fit:cover;object-position:top}
+.crop-exp{height:44mm;object-fit:cover;object-position:0 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:3.5mm}
+.box{border:1px solid var(--rule);border-radius:1.6mm;padding:2.6mm 3.2mm}
+.box.g{border-top:2.4px solid var(--green)}.box.o{border-top:2.4px solid var(--gold)}.box.r{border-top:2.4px solid var(--red)}
+ul,ol{margin:0;padding-left:11px}li{margin-bottom:1.6px;color:var(--ink2)}li b{color:var(--ink);font-weight:650}
+.stack{display:grid;gap:1.4mm;font-size:8.2px}
+.stack .row{display:grid;gap:1.4mm}
+.stack div div,.stack>div:not(.row){border:1px solid var(--rule);border-radius:1.2mm;padding:1.4mm 2mm;background:#fff}
+.stack b{display:block;font-weight:650}.stack small{color:var(--mute);font-size:7.2px}
+.stack .u{background:var(--deep)!important;color:#fff;border-color:var(--deep)!important}.stack .u small{color:#a9c9bd}
+.stack .c{background:var(--mint)!important;border:1.6px solid var(--green)!important}.stack .c b{color:var(--green)}
+.stack .w{background:#f1ece2!important}
+table{width:100%;border-collapse:collapse;font-size:8.2px}
+th{text-align:left;font:600 6.2px JB;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--rule);padding:1.4mm 1.6mm}
+td{border-bottom:1px solid var(--rule2);padding:1.25mm 1.6mm;vertical-align:top}
+td.k{white-space:nowrap;font-weight:650}
+.pill{display:inline-block;font:600 6.6px IN;padding:.5mm 1.6mm;border-radius:9px;white-space:nowrap}
+.pl{background:#ebe5d8;color:#5b5140}.cu{background:var(--mint);color:var(--green)}.sv{background:var(--gold2);color:#7d520c}
+.ok{color:var(--green);font:600 7px JB}
+.mono{font:7.4px JB}
+.stage{border-top:2px solid var(--deep);padding-top:1.8mm}
+.stage .t{font:600 6.4px JB;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.foot{position:absolute;left:12mm;right:12mm;bottom:6.5mm;font-size:7.2px;color:var(--mute);border-top:1px solid var(--rule);padding-top:1.6mm;display:flex;justify-content:space-between}
+</style></head>
+<body>
+<section class="pg">
+  <div class="kick">Client portal · LMS · finance tracker · on your WordPress + WooCommerce</div>
+  <h1>Plugins for the standard parts, <em>one small tested plugin for the rest</em></h1>
+  <p class="lede">Before quoting, I installed WordPress 7.1.4, built the custom layer your brief needs (finance snapshots, programme access windows, per-client resources, the dashboard), and tested it with fictional clients. The screenshots are the running site, and the numbers were measured on it.</p>
+
+  <div class="finding">
+    <b class="big">PayPal can't charge in rand.</b>
+    <p>PayPal doesn't support ZAR, and store owners report that WooCommerce's PayPal gateway won't switch on for a rand-priced store. Monthly renewals through PayPal alone would bill South African clients in a foreign currency. Payfast, the official WooCommerce gateway, charges in rand, works with WooCommerce Subscriptions (with ad hoc payments enabled), and accepts international Visa and Mastercard. PayPal stays only if some clients need it.</p>
+  </div>
+
+  <div class="tally">
+    <div><span>Plugin tests</span><b>29/29</b><small>132 assertions, WordPress 7.1.4</small></div>
+    <div><span>Live HTTP checks</span><b>14/14</b><small>real logins, cookies, nonces</small></div>
+    <div><span>Simulator parity</span><b>2,021/2,021</b><small>browser port vs PHP engine</small></div>
+    <div><span>Dashboard API</span><b id="p50">5.2 ms</b><small>p50, client with 520 snapshots</small></div>
+  </div>
+
+  <div class="shots">
+    <div class="frame"><div class="bar">/portal/ · active client (fictional) · real screenshot</div><img class="crop-dash" src="../site/img/dash-active.jpg"></div>
+    <div class="frame"><div class="bar">Phone, 390 px</div><img src="../site/img/dash-mobile.jpg" style="height:104mm;object-fit:cover;object-position:top"></div>
+  </div>
+  <div class="frame" style="margin-top:2.5mm"><div class="bar">Expired client (fictional) · course locked, nothing deleted, renew in one click</div><img src="pdf-img/expired-banner.jpg"></div>
+
+  <div class="two" style="margin-top:2mm">
+    <div>
+      <h2>The stack</h2>
+      <div class="stack">
+        <div class="u"><b>Client · Coach · Admin</b><small>one login, three views; clients never see wp-admin</small></div>
+        <div class="w"><b>WordPress + Elementor (your current site)</b></div>
+        <div class="row" style="grid-template-columns:1fr 1fr 1fr"><div><b>WooCommerce</b><small>checkout, invoices</small></div><div><b>Payfast · PayPal</b><small>rand + international</small></div><div><b>Woo Subscriptions</b><small>optional monthly</small></div></div>
+        <div class="row" style="grid-template-columns:1fr 1.2fr"><div><b>LearnDash</b><small>courses, video, quizzes, assignment review</small></div><div class="c"><b>ww-portal (custom, ≈1,700 lines)</b><small>snapshots · access windows · resources · dashboard · audit</small></div></div>
+      </div>
+    </div>
+    <div>
+      <h2>Your 22 requirements</h2>
+      <p style="color:var(--ink2);margin-bottom:1.5mm"><span class="pill pl">8 plugin or setting</span> <span class="pill cu">13 custom, drafted and tested</span> <span class="pill sv">1 training</span></p>
+      <ul>
+        <li><b>Plugin:</b> accounts, six-week courses with video and worksheets, progress, assignment uploads with coach review, the course builder, checkout, LearnDash data-deletion off, expired clients still able to log in and buy.</li>
+        <li><b>Custom:</b> the dashboard and its sections, the finance worksheet, net worth and surplus, dated snapshots and compare, course data shown outside the course, history preserved, per-client resources, access on purchase, 10 weeks from the agreed start, subscription restore, finance-data protection.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Proposal lab · all people and figures in the screenshots are fictional</span><span>1 / 2</span></div>
+</section>
+
+<section class="pg">
+  <div class="kick">How the risky parts are handled</div>
+  <h2 style="margin-top:2mm">Access: 10 weeks from the agreed start, renew monthly, lose nothing</h2>
+  <div class="three">
+    <div class="box r"><h3>LearnDash expiry counts from enrolment</h3><p style="color:var(--ink2)">Your rule starts at the agreed programme date. <b>Fix:</b> the portal stores access windows from that date, and LearnDash expiry stays off.</p></div>
+    <div class="box r"><h3>Expiry can delete course data</h3><p style="color:var(--ink2)">LearnDash's optional switch deletes course and quiz data, and it can't be recovered. <b>Fix:</b> expiry only removes access. Tests show progress, worksheets, snapshots and the login unchanged.</p></div>
+    <div class="box r"><h3>Cohort end dates beat extensions</h3><p style="color:var(--ink2)">Extend Access can't pass a group end date. <b>Fix:</b> renewals add a window from where access ends (no gap, no double days) and reopen the course on the same request.</p></div>
+  </div>
+
+  <div class="two" style="margin-top:3mm">
+    <div>
+      <h2>Finance data: typed once, kept forever</h2>
+      <div class="frame"><div class="bar">Week 2 lesson worksheet · live totals</div><img src="../site/img/lesson-live.jpg"></div>
+      <ul style="margin-top:2mm">
+        <li><b>One store</b> for the lesson worksheet and the dashboard. Measured end to end: a lesson save became the dashboard's latest figure, up exactly <span style="white-space:nowrap">R 4 050.50</span>.</li>
+        <li><b>Append-only</b> dated snapshots with a hash chain. A row edited or deleted in the database is flagged at that row.</li>
+        <li><b>Encrypted</b> (XChaCha20-Poly1305) with the key in wp-config, not the database, and bound to owner and date. A copied row won't decrypt.</li>
+        <li><b>Exact money</b> in integer cents. Accepts "R 12 500,50", "12,500.50", "(2 500)" and more.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Privacy and isolation, checked live</h2>
+      <table>
+        <tr><th>Check (real browser sessions)</th><th>Result</th></tr>
+        <tr><td>Logged-out API call</td><td class="ok">401</td></tr>
+        <tr><td><span class="mono">/me/snapshots?user_id=</span> another client</td><td class="ok">own rows only</td></tr>
+        <tr><td>Client calling the coach route</td><td class="ok">403</td></tr>
+        <tr><td>Coach reading another coach's client</td><td class="ok">403 + logged</td></tr>
+        <tr><td>Direct URL to a private resource file</td><td class="ok">403</td></tr>
+        <tr><td>Another client's download link</td><td class="ok">403</td></tr>
+        <tr><td>Expired client logs in, sees history</td><td class="ok">yes</td></tr>
+        <tr><td>Clients sent away from wp-admin</td><td class="ok">yes</td></tr>
+        <tr><td>POPIA export / erase via WordPress tools</td><td class="ok">one client only, audited</td></tr>
+      </table>
+      <p style="color:var(--mute);font-size:7.8px;margin-top:1.5mm">Plus 29 plugin tests. Speed: snapshot save ~3 ms, nightly sweep of 300 clients ~0.6 s (SQLite sandbox).</p>
+    </div>
+  </div>
+
+  <h2>Stages and handover</h2>
+  <div class="three">
+    <div class="stage"><p class="t">Stage 1 · prototype on staging</p><ul><li>LearnDash with a 6-week course shell</li><li>Dashboard, Week 1 worksheet, snapshots, compare</li><li>Access windows and the Client access screen</li><li>Payfast sandbox checkout granting access</li></ul></div>
+    <div class="stage"><p class="t">Stage 2 · complete system, live</p><ul><li>Monthly continue or restore, with grace days</li><li>Coach role, worksheet review, audited view</li><li>Resource library, protected files</li><li>Encryption key, POPIA tools, reminder emails, go-live</li></ul></div>
+    <div class="stage"><p class="t">Handover</p><ul><li>Two recorded trainings: admin and coach</li><li>Admin guide using your own screens</li><li>Code, tests, key and backup notes</li><li>Post-launch support window</li></ul></div>
+  </div>
+
+  <div class="two" style="margin-top:3mm">
+    <div class="box g"><h3>Measured</h3><ul><li>29/29 plugin tests, 14/14 live HTTP checks, 2,021/2,021 simulator parity, 25/25 parser parity</li><li>Lesson → dashboard end to end, plus every screenshot</li><li>One real bug caught: "−R 400" couldn't be re-parsed. Fixed and tested.</li></ul></div>
+    <div class="box o"><h3>Not measured yet (runs first on staging)</h3><ul><li>LearnDash adapter (licensed, written to its documented API)</li><li>WooCommerce, Subscriptions and Payfast/PayPal hooks, in sandbox</li><li>Your MySQL host and Elementor wrapper; load under many users</li></ul></div>
+  </div>
+  <div class="two" style="margin-top:3mm">
+    <div class="box"><h3>Defaults I've chosen (each one can change)</h3><ul>
+      <li><b>Rand store, Payfast first.</b> PayPal only if some clients need it.</li>
+      <li><b>The finance tracker keeps working after access ends.</b> It's the client's data and a reason to come back. Only the course locks.</li>
+      <li><b>3 grace days</b> on renewals, so a late debit order doesn't lock anyone out mid-lesson.</li>
+      <li><b>Coaches see only their assigned clients.</b> Every view of someone's finances is logged.</li>
+    </ul></div>
+    <div class="box" style="background:var(--gold2);border-color:#e6cd9c"><h3>Simpler or cheaper, if you prefer</h3><ul>
+      <li><b>Renewal passes instead of subscriptions:</b> a one-off "continue a month" product. No Subscriptions licence and no recurring setup; clients renew by hand after a reminder.</li>
+      <li><b>Tutor LMS Pro on a lifetime licence instead of LearnDash:</b> the portal talks to the LMS through one adapter, so this swaps one file.</li>
+      <li><b>Payfast only:</b> one gateway means one set of tests and one reconciliation.</li>
+    </ul></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>What I need from you to start</h3><p style="color:var(--ink2)">Staging access on your host (or permission to create it); admin access to WordPress; your Payfast merchant sandbox details, or I'll walk you through opening the account; one sample week of course material (video links and worksheet) to build the course shell around.</p></div>
+  <div class="foot"><span>Sources: PayPal Community · WooCommerce Payfast docs · LearnDash and Nexcess docs · WordPress developer handbook (links on the lab site)</span><span>2 / 2</span></div>
+</section>
+<script>
+fetch('../site/data/tests.json').then(r=>r.json()).then(t=>{document.getElementById('p50').textContent=t.perf.summary_p50_ms+' ms'}).finally(()=>document.body.setAttribute('data-ready','1'));
+</script>
+</body></html>
